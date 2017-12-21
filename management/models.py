@@ -9,7 +9,8 @@ class MyUser(models.Model):
     nickname = models.CharField(max_length=16)
     permission = models.IntegerField(default=1)
 
-    def __unicode__(self):
+    #def __unicode__(self):  #2
+    def __str__(self):     #3
         return self.user.username
 
 
@@ -23,7 +24,8 @@ class Book(models.Model):
     class META:
         ordering = ['name']
 
-    def __unicode__(self):
+    #def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -36,5 +38,6 @@ class Img(models.Model):
     class META:
         ordering = ['name']
 
-    def __unicode__(self):
+    #def __unicode__(self):
+    def __str__(self):
         return self.name
