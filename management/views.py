@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+#render 结合一个给定的模板和一个给定的上下文字典，并返回一个渲染后的 HttpResponse 对象。
+#通俗的讲就是把context的内容, 加载进templates中定义的文件, 并通过浏览器渲染呈现.
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -7,7 +10,25 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from management.models import MyUser, Book, Img
 from django.core.urlresolvers import reverse
 from management.utils import permission_check
+import json
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework import versioning
+from rest_framework import viewsets
 
+from .serializers import BookSerializer
+
+class BookList(mixins.ListModelMixin,
+                mixins.CreateModelMixin,
+                generics.GenericAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, args, kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 def index(request):
     user = request.user if request.user.is_authenticated() else None
@@ -198,3 +219,48 @@ def add_img(request):
         'active_menu': 'add_img',
     }
     return render(request, 'management/add_img.html', content)
+
+@user_passes_test(permission_check)
+def view_reader_list(request):
+    user = request.user
+    #user_list1 = MyUser.objects.filter(permission=1) #读者为普通用户
+    #user_list = User.objects.filter(nickname=user_list1.nickname)
+    user_list = MyUser.objects.filter(permission=1)
+    
+    if request.method == 'POST':
+        keyword = request.POST.get('keyword', '')
+        user_list = MyUser.objects.filter(name__contains=keyword)
+    #分页，每页显示5个用户
+    paginator = Paginator(user_list,5)
+    page = request.GET.get('page')
+    try:
+        user_list = paginator.page(page)
+    except PageNotAnInteger:
+        user_list = paginator.page(1)
+    except EmptyPage:
+        user_list = paginator.page(paginator.num_pages)
+    content = {
+        'user': user,
+       # 'active_menu': 'view_user',
+       # 'category_list': category_list,
+       # 'query_category': query_category,
+        'user_list': user_list,
+    }
+    return render(request, 'management/view_reader_list.html', content)
+
+def test_page(request):
+	list = ['view','Json','JS']
+	return render(request,'management/test.html',{'List':json.dumps(list),
+})
+
+def scene_update_view(request):
+    if request.method == "POST":
+            name = request.POST.get('name')
+            status = 0
+            result = "Error!"
+            return HttpResponse(json.dumps({
+                "status": status,
+                "result": result
+            }))
+
+

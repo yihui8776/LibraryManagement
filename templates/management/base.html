@@ -38,7 +38,8 @@
                     <li id="add_img"><a href="{% url 'add_img' %}">添加图片</a></li>
                 {% endif %}
                 <li id="view_book"><a href="{% url 'view_book_list' %}">查看图书</a></li>
-            </ul>
+                <li id="view_user"><a href="{% url 'view_reader_list' %}">查看读者</a></li>
+               </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user %}
                     <li><p class="navbar-text">欢迎你&nbsp;&nbsp;<span id="base_name">{{ user.myuser.nickname }}</span></p>

@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^add_img/$', views.add_img, name='add_img'),
     url(r'^view_book_list/$', views.view_book_list, name='view_book_list'),
     url(r'^view_book/detail/$', views.detail, name='detail'),
+    url(r'^view_reader_list/$',views.view_reader_list,name='view_reader_list'),
+    #url(r'^view_get_json/$',GetJsonView.as_view(),name='get_json_response'),
+    url(r'^booklist/', views.BookList.as_view()),
 ]

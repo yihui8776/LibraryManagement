@@ -17,10 +17,15 @@ from django.conf.urls import url, include
 from django.contrib.staticfiles import views
 from django.contrib import admin
 from django.conf import settings
+#from rest_framework.schemas import get_schema_view
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('management.urls'))
+    url(r'', include('management.urls')),
+    url(r'^api/', include('testrestapi.urls')),
+    url(r'^api/', include('management.api')),
+    
 ]
 
 if settings.DEBUG:

@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'management.apps.ManagementConfig',
+    #'rest_framework_swagger',
+    'testrestapi',
+    'rest_framework',#配置 rest_framework app
 ]
 
 MIDDLEWARE_CLASSES = [
