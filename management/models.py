@@ -8,6 +8,7 @@ class MyUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=16)
     permission = models.IntegerField(default=1)
+    contact = models.IntegerField(max_length = 16)  #联系方式
 
     #def __unicode__(self):  #2
     def __str__(self):     #3

@@ -48,7 +48,6 @@
                         <tr>
                             <th>#</th>
                             <th>读者</th>
-                            <th>昵称</th>
                             <th>邮箱</th>
                             <th>注册日期</th>
                         </tr>
@@ -58,13 +57,12 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ user.username}}</td>
-                                <td>{{ user.nickname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.date_joined|date:"Y-m-d" }}</td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td>暂无读者</td>
+                                <td>暂无用户</td>
                             </tr>
                         {% endfor %}
                         </tbody>

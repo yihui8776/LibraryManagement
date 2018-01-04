@@ -225,12 +225,21 @@ def view_reader_list(request):
     user = request.user
     #user_list1 = MyUser.objects.filter(permission=1) #读者为普通用户
     #user_list = User.objects.filter(nickname=user_list1.nickname)
-    user_list = MyUser.objects.filter(permission=1)
+    user_list1 = MyUser.objects.filter(permission=1) #return objet
+    user_list = []
+    for ans in user_list1:
+       user_list.append(ans.user)
+       
     
     if request.method == 'POST':
         keyword = request.POST.get('keyword', '')
-        user_list = MyUser.objects.filter(name__contains=keyword)
-    #分页，每页显示5个用户
+        user_list1 = MyUser.objects.filter(user__username__contains=keyword).filter(permission=1)
+        user_list = []
+        for ans in user_list1:
+            user_list.append(ans.user)
+
+     #分页，每页显示5个用户
+        
     paginator = Paginator(user_list,5)
     page = request.GET.get('page')
     try:
