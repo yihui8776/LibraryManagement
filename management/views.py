@@ -128,11 +128,13 @@ def add_book(request):
     state = None
     if request.method == 'POST':
         new_book = Book(
-                name=request.POST.get('name', ''),
+                isbn=request.POST.get('isbn',''),
+                title=request.POST.get('title', ''),
                 author=request.POST.get('author', ''),
                 category=request.POST.get('category', ''),
                 price=request.POST.get('price', 0),
-                publish_date=request.POST.get('publish_date', '')
+                pubdate=request.POST.get('pubdate', ''),
+                owner=request.user
         )
         new_book.save()
         state = 'success'
@@ -156,7 +158,7 @@ def view_book_list(request):
 
     if request.method == 'POST':
         keyword = request.POST.get('keyword', '')
-        book_list = Book.objects.filter(name__contains=keyword)
+        book_list = Book.objects.filter(title__contains=keyword)
         query_category = 'all'
 
     paginator = Paginator(book_list, 5)

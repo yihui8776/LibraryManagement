@@ -50,16 +50,16 @@
                             <th>书名</th>
                             <th>作者</th>
                             <th>出版日期</th>
-                            <th>定价</th>
+                            <th>价格</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for book in book_list %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{% url 'detail' %}?id={{ book.id }}">{{ book.name }}</a></td>
+                                <td><a href="{% url 'detail' %}?id={{ book.id }}">{{ book.title }}</a></td>
                                 <td>{{ book.author }}</td>
-                                <td>{{ book.publish_date|date:"Y-m-d" }}</td>
+                                <td>{{ book.pubdate }}</td>
                                 <td>{{ book.price|floatformat:2 }}</td>
                             </tr>
                         {% empty %}
